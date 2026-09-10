@@ -7,14 +7,17 @@ gunicorn==21.2.0
 # Gestion variables environnement
 python-decouple==3.8
 
-# Traitement images (VERSION COMPATIBLE avec Python 3.14)
+# Parsing DATABASE_URL
+dj-database-url==2.1.0
+
+# Traitement images
 Pillow==10.2.0
 
-# Base de donnees PostgreSQL (optionnel, pour Render)
+# Base de donnees PostgreSQL (Render / prod)
 psycopg2-binary==2.9.9
 
 # API OpenAI
-openai==1.6.2
+openai>=1.6.0
 
 # Support CORS
 django-cors-headers==4.3.1
