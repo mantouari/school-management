@@ -1,0 +1,45 @@
+# ==========================================================================
+# Blueprint Render — déploiement en un clic (Render > New > Blueprint)
+# Voir docs/DEPLOIEMENT_RENDER.md pour la marche à suivre détaillée.
+# ==========================================================================
+services:
+  # ---------------------------------------------------------------- Web app
+  - type: web
+    name: gestion-scolaire
+    runtime: docker          # déploie l'image construite depuis le Dockerfile
+    plan: starter            # "free" possible pour tester (voir guide)
+    healthCheckPath: /health/
+    autoDeploy: true
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DJANGO_SETTINGS_MODULE
+        value: school_management.settings.prod
+      - key: DEBUG
+        value: "0"
+      - key: WEB_CONCURRENCY
+        value: "3"
+      - key: TIME_ZONE
+        value: Africa/Abidjan
+      - key: ALLOWED_HOSTS
+        value: gestion-scolaire.onrender.com   # à adapter après création
+      - key: CSRF_TRUSTED_HOSTS
+        value: gestion-scolaire.onrender.com   # à adapter après création
+      - key: DATABASE_URL
+        fromDatabase:
+          name: gestion-scolaire-db
+          property: connectionString
+    # disque persistant pour les fichiers média (photos, documents) :
+    # décommentez si votre plan le permet (les disques ne sont pas offerts
+    # sur le plan gratuit).
+    # disk:
+    #   name: media
+    #   mountPath: /app/media
+    #   sizeGB: 5
+
+  # ------------------------------------------------------------- PostgreSQL
+databases:
+  - name: gestion-scolaire-db
+    plan: basic-256mb        # plan payant le plus petit ; "free" pour tester
+    databaseName: gestion_scolaire
+    user: gestion_scolaire

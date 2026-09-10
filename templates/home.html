@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}{{ etablissement.nom|default:"Gestion scolaire" }} — Accueil{% endblock %}
+{% block brand_name %}{{ etablissement.nom|default:"Gestion scolaire" }}{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <h1>{{ etablissement.nom|default:"Bienvenue" }}</h1>
+  {% if etablissement.slogan %}<p class="slogan">« {{ etablissement.slogan }} »</p>{% endif %}
+  <p class="lead">
+    {{ etablissement.description|default:"Logiciel complet de gestion scolaire : élèves, classes, emplois du temps, notes, bulletins, présences et paiements." }}
+  </p>
+  <div class="hero-actions">
+    <a class="btn btn-primary btn-lg" href="{% url 'login' %}">Se connecter</a>
+    {% if annee %}<span class="badge">{{ annee }} · année en cours</span>{% endif %}
+  </div>
+</section>
+
+<section class="grid stats">
+  <div class="card stat">
+    <span class="stat-value">{{ nb_eleves }}</span>
+    <span class="stat-label">élèves inscrits</span>
+  </div>
+  <div class="card stat">
+    <span class="stat-value">{{ nb_classes }}</span>
+    <span class="stat-label">classes ouvertes</span>
+  </div>
+  <div class="card stat">
+    <span class="stat-value">4</span>
+    <span class="stat-label">cycles couverts</span>
+  </div>
+</section>
+
+<section class="grid features">
+  <div class="card">
+    <h2>🎒 Scolarité</h2>
+    <p>Inscriptions de la maternelle au lycée, dossiers élèves, tuteurs et historique des classes.</p>
+  </div>
+  <div class="card">
+    <h2>📚 Pédagogie</h2>
+    <p>Cycles, niveaux, matières, cours, emplois du temps, évaluations et moyennes pondérées.</p>
+  </div>
+  <div class="card">
+    <h2>📝 Vie scolaire</h2>
+    <p>Suivi des absences, retards et justifications, jour après jour.</p>
+  </div>
+  <div class="card">
+    <h2>💰 Finances</h2>
+    <p>Barèmes de scolarité, encaissements et suivi des restes à payer.</p>
+  </div>
+</section>
+
+{% if etablissement.ville or etablissement.telephone %}
+<section class="card contact">
+  <h2>Contact</h2>
+  <p>
+    {% if etablissement.adresse %}{{ etablissement.adresse }} — {% endif %}
+    {% if etablissement.ville %}{{ etablissement.ville }}{% endif %}
+    {% if etablissement.telephone %}· {{ etablissement.telephone }}{% endif %}
+  </p>
+</section>
+{% endif %}
+{% endblock %}

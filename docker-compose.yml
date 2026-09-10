@@ -1,0 +1,45 @@
+# ==========================================================================
+# Environnement de développement local : `docker compose up --build`
+# - web   : Django + runserver (code monté en volume, rechargement à chaud)
+# - db    : PostgreSQL 16
+# ==========================================================================
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: school
+      POSTGRES_USER: school
+      POSTGRES_PASSWORD: school
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U school -d school"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build: .
+    restart: unless-stopped
+    # En dev on utilise runserver (rechargement automatique) et les settings dev
+    entrypoint: ["sh", "-c", "python manage.py migrate --noinput && python manage.py init_referentiels && python manage.py runserver 0.0.0.0:8000"]
+    environment:
+      DJANGO_SETTINGS_MODULE: school_management.settings.dev
+      DEBUG: "1"
+      SECRET_KEY: cle-de-dev-a-changer-en-production
+      DATABASE_URL: postgres://school:school@db:5432/school
+      ALLOWED_HOSTS: localhost,127.0.0.1
+      TIME_ZONE: Africa/Abidjan
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

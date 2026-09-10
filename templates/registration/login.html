@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Connexion — Gestion scolaire{% endblock %}
+
+{% block content %}
+<div class="login-wrapper">
+  <form method="post" class="card login-card">
+    <h1>Connexion</h1>
+    <p class="lead">Accédez à votre espace de gestion scolaire.</p>
+    {% csrf_token %}
+    {% if form.errors %}
+      <div class="alert alert-error">Identifiants incorrects. Veuillez réessayer.</div>
+    {% endif %}
+    <input type="hidden" name="next" value="{{ next }}">
+    <label for="id_username">Nom d'utilisateur</label>
+    <input type="text" name="username" id="id_username" autofocus required>
+    <label for="id_password">Mot de passe</label>
+    <input type="password" name="password" id="id_password" required>
+    <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
+  </form>
+</div>
+{% endblock %}

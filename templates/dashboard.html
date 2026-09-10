@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}Tableau de bord — Gestion scolaire{% endblock %}
+
+{% block content %}
+<h1>Tableau de bord</h1>
+{% if annee %}
+  <p class="lead">Année scolaire en cours : <strong>{{ annee }}</strong></p>
+{% else %}
+  <div class="alert alert-warning">
+    Aucune année scolaire active. Créez-en une dans
+    <a href="{% url 'admin:index' %}">l'administration</a>.
+  </div>
+{% endif %}
+
+<section class="grid stats">
+  <div class="card stat">
+    <span class="stat-value">{{ nb_eleves }}</span>
+    <span class="stat-label">élèves</span>
+  </div>
+  <div class="card stat">
+    <span class="stat-value">{{ nb_enseignants }}</span>
+    <span class="stat-label">enseignants</span>
+  </div>
+  <div class="card stat">
+    <span class="stat-value">{{ nb_classes }}</span>
+    <span class="stat-label">classes (année active)</span>
+  </div>
+  <div class="card stat">
+    <span class="stat-value">{{ total_encaisse|intcomma }}</span>
+    <span class="stat-label">montant encaissé</span>
+  </div>
+</section>
+
+<section class="grid two">
+  <div class="card">
+    <h2>🗓️ Absences & retards du jour</h2>
+    <p class="big-number">{{ absences_du_jour }}</p>
+    <p class="muted">Faites le pointage dans <em>Présences</em> de l'administration.</p>
+  </div>
+  <div class="card">
+    <h2>📣 Dernières annonces</h2>
+    {% if annonces %}
+      <ul class="list">
+        {% for annonce in annonces %}
+          <li>
+            {% if annonce.importante %}<span class="badge badge-red">Important</span>{% endif %}
+            <strong>{{ annonce.titre }}</strong><br>
+            <span class="muted">{{ annonce.date_publication|date:"d/m/Y H:i" }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">Aucune annonce pour le moment.</p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="card">
+  <h2>⚡ Accès rapides</h2>
+  <div class="hero-actions">
+    <a class="btn btn-outline" href="{% url 'admin:students_eleve_changelist' %}">Élèves</a>
+    <a class="btn btn-outline" href="{% url 'admin:academic_classe_changelist' %}">Classes</a>
+    <a class="btn btn-outline" href="{% url 'admin:grades_evaluation_changelist' %}">Évaluations</a>
+    <a class="btn btn-outline" href="{% url 'admin:attendance_presence_changelist' %}">Présences</a>
+    <a class="btn btn-outline" href="{% url 'admin:finance_paiement_changelist' %}">Paiements</a>
+    <a class="btn btn-outline" href="{% url 'admin:communication_annonce_add' %}">Nouvelle annonce</a>
+  </div>
+</section>
+{% endblock %}
