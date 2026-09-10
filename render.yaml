@@ -1,0 +1,19 @@
+# BluePrint Render : déploiement en 1 clic
+# Dans le dashboard Render : "New" -> "Blueprint" -> lier ce repo.
+services:
+  - type: web
+    name: school-management
+    env: python
+    plan: free
+    buildCommand: ./build.sh
+    startCommand: gunicorn school_management.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --access-logfile - --error-logfile -
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.5
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com,localhost,127.0.0.1"
+    # Si vous ajoutez un PostgreSQL Render, DATABASE_URL est injecté automatiquement.
