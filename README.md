@@ -51,7 +51,7 @@ school-management/
 ├── templates/                  # templates globaux (accueil, tableau de bord, connexion)
 ├── static/                     # CSS / JS / images
 └── docs/
-    └── DEPLOIEMENT_RENDER.md   # ⭐ guide de déploiement sur Render
+    └── GUIDE_DEPLOIEMENT.md      # ⭐ guide complet : local (1) puis Render (2)
 ```
 
 **Choix techniques :**
@@ -112,7 +112,7 @@ Le dépôt contient tout le nécessaire :
 - un **blueprint `render.yaml`** qui provisionne l'application **et** la base PostgreSQL en une seule opération ;
 - les **settings de production** sécurisés.
 
-👉 Suivez le guide complet : **[docs/DEPLOIEMENT_RENDER.md](docs/DEPLOIEMENT_RENDER.md)**
+👉 Suivez le guide complet : **[docs/GUIDE_DEPLOIEMENT.md](docs/GUIDE_DEPLOIEMENT.md)**
 
 ## ✅ Tests
 

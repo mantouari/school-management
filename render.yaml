@@ -1,6 +1,6 @@
 # ==========================================================================
 # Blueprint Render — déploiement en un clic (Render > New > Blueprint)
-# Voir docs/DEPLOIEMENT_RENDER.md pour la marche à suivre détaillée.
+# Voir docs/GUIDE_DEPLOIEMENT.md pour la marche à suivre détaillée.
 # ==========================================================================
 services:
   # ---------------------------------------------------------------- Web app
